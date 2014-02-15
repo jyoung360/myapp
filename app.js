@@ -8,12 +8,17 @@ var user = require('./routes/user');
 //var http = require('http');
 var path = require('path');
 var app = express();
+var dust = require('dustjs-linkedin')
+, cons = require('consolidate');
 
 // all environments
 app.set('port', process.env.PORT || 3001);
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//app.set('view engine', 'jade');
 app.use(express.favicon());
+app.engine('dust', cons.dust);
+app.set('template_engine', 'dust');
+app.set('view engine', 'dust');
 app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
