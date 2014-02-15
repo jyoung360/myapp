@@ -4,9 +4,8 @@
  */
 
 var express = require('express');
-var routes = require('./routes');
 var user = require('./routes/user');
-var http = require('http');
+//var http = require('http');
 var path = require('path');
 var app = express();
 
@@ -29,10 +28,26 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.get('/', routes.index);
 app.get('/users', user.list);
+
+
+/*
+var server = http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});
+*/
+var server = require('http').Server(app);
+var io = require('socket.io').listen(server);
+var routes = require('./routes')(io);
+app.get('/', routes.index);
 app.post('/image', routes.saveImage);
 
-http.createServer(app).listen(app.get('port'), function(){
+io.sockets.on('connection', function (socket) {
+  //socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
