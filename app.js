@@ -45,6 +45,7 @@ var server = require('http').Server(app);
 var io = require('socket.io').listen(server);
 var routes = require('./routes')(io);
 app.get('/', routes.index);
+app.get('/v0/stream', routes.stream);
 app.post('/image', routes.saveImage);
 
 io.sockets.on('connection', function (socket) {

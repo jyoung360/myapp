@@ -7,9 +7,10 @@ var fs = require('fs');
 module.exports = function(io) {
 	var routes = {};
 	routes.index = function (req, res) {
-		//io.sockets.emit('payload');
-		//io.sockets.emit('news', { hello: 'conkey' });
 		res.render('index', { host: req.headers.host });
+	};
+	routes.stream = function (req, res) {
+		res.render('stream', { host: req.headers.host });
 	};
 	routes.saveImage = function(req, res){
 		fs.readFile(req.files.attachment.file.path, function (err, data) {
