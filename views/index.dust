@@ -9,10 +9,8 @@
 		<script>
 		var socket = io.connect('http://{host}');
 			socket.on('news', function (data) {
-				//console.log(data);
 				console.log('<img src="data:image/jpeg;base64,'+data.data+'" />');
 				$('body').html('<img src="data:image/jpeg;base64,'+data.data+'" />');
-				//socket.emit('my other event', { my: 'datastuff' });
 			});
 		</script>
 	</head>
